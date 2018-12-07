@@ -1,0 +1,492 @@
+ADMIN LOGIN
+
+
+
+CREATE TABLE `admin_login` 
+(
+  `email_Id` VARCHAR(45) NOT NULL,
+ 
+ `password` VARCHAR(45) NOT NULL,
+ 
+ `name` VARCHAR(45) NOT NULL,
+  
+`phoneNumber` INT(11) NOT NULL,
+  
+PRIMARY KEY (`email_Id`));
+
+
+
+
+
+CUSTOMER LOGIN
+
+CREATE TABLE `customer_login` (
+ 
+ `email_Id` VARCHAR(45) NOT NULL,
+  
+`password` VARCHAR(45) NOT NULL,
+
+  `name` VARCHAR(45) NOT NULL,
+  
+`phoneNumber` INT(11) NOT NULL,
+  
+`address` VARCHAR(45) NOT NULL,
+  
+PRIMARY KEY (`email_Id`));
+
+
+
+
+MERCHANT LOGIN
+
+
+CREATE TABLE `merchant_login` (
+ 
+ `email_Id` VARCHAR(45) NOT NULL,
+ 
+ `password` VARCHAR(45) NOT NULL,
+ 
+ `name` VARCHAR(45) NOT NULL,
+ 
+ `phoneNumber` INT(11) NOT NULL,
+ 
+ `address` VARCHAR(45) NOT NULL,
+
+  `Organization_name` VARCHAR(45) NOT NULL,
+ 
+ PRIMARY KEY (`email_Id`));
+
+
+
+
+
+
+3rd PARTY MERCHANT LOGIN
+
+CREATE TABLE `3_party_merchant_login` (
+  
+`3_party_email_Id` VARCHAR(45) NOT NULL,
+ 
+ `3_party_password` VARCHAR(45) NOT NULL,
+ 
+ `3_party_name` VARCHAR(45) NOT NULL,
+  
+`3_party_phoneNumber` INT(11) NOT NULL,
+ 
+ `3_party_address` VARCHAR(45) NOT NULL,
+  
+`3_party_organization_name` VARCHAR(45) NOT NULL,
+ 
+ PRIMARY KEY (`3_party_email_Id`));
+
+
+
+
+
+
+MERCHANT PRODUCT
+
+CREATE TABLE `merchant_product` (
+ 
+ `product_Id` INT NOT NULL,
+ 
+ `product_Name` VARCHAR(45) NOT NULL,
+ 
+ `product_Category` VARCHAR(45) NOT NULL,
+  
+`product_Description` VARCHAR(45) NOT NULL,
+ 
+ `product_Price` DOUBLE NOT NULL,
+ 
+`product_Image` VARCHAR(60) NULL,
+ 
+  `product_Quantity` INT NOT NULL,
+ 
+ `product_Discount` VARCHAR(45) NOT NULL,
+ 
+ `timeForDiscount` INT NOT NULL,
+ 
+ `product_Promo` VARCHAR(45) NULL,
+ 
+ `timeForPromo` INT NULL,
+ 
+ `numberOfProductSold` INT NULL,
+ 
+ `sellingCost` DOUBLE NULL,
+ 
+ `exchangeAmount` DOUBLE NULL,
+
+  `merchant_email_Id` VARCHAR(45) NULL,
+ 
+ `product_Exchanged` VARCHAR(45) NULL,
+
+
+  PRIMARY KEY (`product_Id`),
+ 
+ INDEX `merchant_email_Id_idx` (`merchant_email_Id` ASC),
+  CONSTRAINT `merchant_email_Id`
+   
+ FOREIGN KEY (`merchant_email_Id`)
+    REFERENCES `merchant_login` (`email_Id`)
+ 
+   ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+
+
+
+CUSTOMER PRODUCT
+
+CREATE TABLE `customer_product` (
+  
+`product_Id` INT NOT NULL,
+  
+`product_Name` VARCHAR(45) NULL,
+ 
+ `product_Category` VARCHAR(45) NULL,
+ 
+ `product_Description` VARCHAR(45) NULL,
+  
+`product_Price` DOUBLE NULL,
+  
+`product_Image` VARCHAR(60) NULL,
+ 
+ `product_Quantity` INT NULL,
+ 
+ `customer_email_Id` VARCHAR(45) NULL,
+ 
+ `exchangeStatus` VARCHAR(45) NULL,
+  
+`amountRefunded` DOUBLE NULL,
+ 
+ PRIMARY KEY (`product_Id`),
+  
+INDEX `customer_email_Id_idx` (`customer_email_Id` ASC),
+  CONSTRAINT `customer_email_Id`
+    FOREIGN KEY (`customer_email_Id`)
+    REFERENCES `customer_login` (`email_Id`)
+  
+  ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+
+
+
+
+
+3rd PARTY MERCHANT PRODUCT
+
+
+CREATE TABLE `3_party_merchant_product` (
+
+  `3_party_product_Id` INT NOT NULL,
+  
+`3_party_product_Name` VARCHAR(45) NULL,
+ 
+ `3_party_product_Type` VARCHAR(45) NULL,
+  
+`3_party_product_Description` VARCHAR(45) NULL,
+ 
+ `3_party_product_Price` DOUBLE NULL,
+  
+`3_party_product_Image` VARCHAR(60) NULL,
+ 
+ `3_party_product_Quantity` INT NULL,
+ 
+ `3_party_merchant_email_Id` VARCHAR(45) NULL,
+  
+`3_party_product_Discount` VARCHAR(45) NULL,
+ 
+ `3_party_timeForDiscount` INT NULL,
+
+  `3_party_product_Promo` VARCHAR(45) NULL,
+ 
+ `3_party_timeForPromo` INT NULL,
+ 
+ `3_party_numberOfProductSold` INT NULL,
+ 
+ `3_party_sellingCost` DOUBLE NULL,
+ 
+ `3_party_exchangeAmount` DOUBLE NULL,
+ 
+ `3_party_product_Exchanged` VARCHAR(45) NULL,
+ 
+ PRIMARY KEY (`3_party_product_Id`),
+ 
+ INDEX `3_party_merchant_email_Id_idx` (`3_party_merchant_email_Id` ASC),
+  CONSTRAINT `3_party_merchant_email_Id`
+    FOREIGN KEY (`3_party_merchant_email_Id`)
+    REFERENCES `3_party_merchant_login` (`3_party_email_Id`)
+ 
+   ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+
+
+
+ADMIN PRODUCT
+
+
+CREATE TABLE `admin_product` (
+ 
+ `product_Id` int(11) NOT NULL,
+ 
+ `product_Name` varchar(45) DEFAULT NULL,
+ 
+ `product_Category` varchar(45) DEFAULT NULL,
+ 
+ `product_Description` varchar(45) DEFAULT NULL,
+ 
+ `product_Price` double DEFAULT NULL,
+ 
+ `product_Image` varchar(60) DEFAULT NULL,
+ 
+ `product_Quantity` int(11) DEFAULT NULL,
+ 
+`seller_email_Id` varchar(45) DEFAULT NULL,
+  
+`product_Discount` varchar(45) DEFAULT NULL,
+ 
+ `timeForDiscount` int(11) DEFAULT NULL,
+ 
+ `product_Promo` varchar(45) DEFAULT NULL,
+ 
+ `timeForPromo` int(11) DEFAULT NULL,
+  
+ `numberOfProductSold` int(11) DEFAULT NULL,
+ 
+ `numberOfProductExchanged` int(11) DEFAULT NULL,
+
+  `sellingAmount` double DEFAULT NULL,
+  
+`exchangeAmount` double DEFAULT NULL,
+  
+ 
+  PRIMARY KEY (`product_Id`)
+);
+
+
+ORDER
+
+CREATE TABLE `order` (
+  `order_Id` INT NOT NULL,
+ 
+ `order_Type` VARCHAR(45) NULL,
+  
+`product_Id` INT NULL,
+ 
+ `product_Name` VARCHAR(45) NULL,
+  
+`product_Price` DOUBLE NULL,
+ 
+ `product_Image` VARCHAR(60) NULL,
+  
+`product_Quantity` INT NULL,
+ 
+ `customer_email_Id` VARCHAR(45) NULL,
+  PRIMARY KEY (`order_Id`),
+ 
+ INDEX `customer_email_Id_idx` (`customer_email_Id` ASC),
+ 
+ INDEX `product_Id_idx` (`product_Id` ASC),
+  
+CONSTRAINT `customer_email_Id`
+    FOREIGN KEY (`customer_email_Id`)
+    REFERENCES `customer_login` (`email_Id`)
+  
+  ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  
+CONSTRAINT `product_Id`
+    FOREIGN KEY (`product_Id`)
+    REFERENCES `admin_product` (`product_Id`)
+ 
+   ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+
+
+
+PAYMENT
+
+CREATE TABLE `payment` (
+  `transactionId` INT NOT NULL,
+ 
+ `paymentMode` VARCHAR(45) NULL,
+
+  `customer_emailId` VARCHAR(45) NULL,
+ 
+ `seller_emailId` VARCHAR(45) NULL,
+
+  `product_Id` INT NULL,
+  
+`product_Name` VARCHAR(45) NULL,
+ 
+ `product_Price` DOUBLE NULL,
+
+  `product_Quantity` INT NULL,
+ 
+ PRIMARY KEY (`transactionId`),
+
+  INDEX `customer_emailId_idx` (`customer_emailId` ASC),
+ 
+ INDEX `product_Id_idx` (`product_Id` ASC),
+ 
+ CONSTRAINT `customer_emailId`
+    FOREIGN KEY (`customer_emailId`)
+  
+  REFERENCES `customer_login` (`email_Id`)
+   
+ ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+ 
+ CONSTRAINT `product_Id`
+    FOREIGN KEY (`product_Id`)
+  
+  REFERENCES `admin_product` (`product_Id`)
+    
+ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+
+CART
+
+
+CREATE TABLE `cart` (
+  `productId` int(11) DEFAULT NULL,
+ 
+ `product_Name` varchar(45) DEFAULT NULL,
+ 
+ `product_Description` varchar(45) DEFAULT NULL,
+ 
+ `product_Category` varchar(45) DEFAULT NULL,
+  
+`product_Price` double DEFAULT NULL,
+ 
+ `product_Quantity` int(11) DEFAULT NULL,
+  
+`seller_emailId` varchar(45) DEFAULT NULL,
+ 
+ `customer_emailId` varchar(45) DEFAULT NULL,
+ 
+ KEY `product_Id_idx` (`productId`),
+ 
+ KEY `customer_emailId_idx` (`customer_emailId`),
+ 
+ CONSTRAINT `customer_emailId` FOREIGN KEY (`customer_emailId`) REFERENCES `customer_login` (`email_Id`) 
+ON DELETE NO ACTION ON UPDATE NO ACTION,
+ 
+ CONSTRAINT `productId` FOREIGN KEY (`productId`) REFERENCES `admin_product` (`product_Id`)
+ ON DELETE NO ACTION ON UPDATE NO ACTION);
+
+
+
+WISHLIST
+
+
+CREATE TABLE `wishlist` (
+  `product_Name` varchar(45) DEFAULT NULL,
+ 
+ `product_Description` varchar(45) DEFAULT NULL,
+ 
+ `product_Price` double DEFAULT NULL,
+
+  `product_Id` int(11) DEFAULT NULL,
+ 
+ `customer_emailId` varchar(45) DEFAULT NULL,
+ 
+ KEY `product_Id_idx` (`product_Id`),
+ 
+ KEY `customer_emailId_idx` (`customer_emailId`),
+
+  CONSTRAINT `product_Id` FOREIGN KEY (`product_Id`) REFERENCES `admin_product` (`product_Id`)
+ ON DELETE NO ACTION ON UPDATE NO ACTION,
+ 
+ CONSTRAINT `customer_emailId` FOREIGN KEY (`customer_emailId`) REFERENCES `customer_login` (`email_Id`) 
+ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+
+
+DELIVERY 
+
+
+CREATE TABLE `delivery` (
+  `deliveryId` int(11) NOT NULL,
+ 
+ `order_Id` int(11) DEFAULT NULL,
+ 
+ `customer_emailId` varchar(45) DEFAULT NULL,
+ 
+ `seller_emailId` varchar(45) DEFAULT NULL,
+ 
+ `product_Name` varchar(45) DEFAULT NULL,
+  
+`transactionId` int(11) DEFAULT NULL,
+ 
+ `dispatchDate` varchar(45) DEFAULT NULL,
+  
+`estimatedReachDate` varchar(45) DEFAULT NULL,
+ 
+ `shippingStatus` varchar(45) DEFAULT NULL,
+  
+`product_Id` int(11) DEFAULT NULL,
+  
+  PRIMARY KEY (`deliveryId`),
+
+  KEY `order_Id_idx` (`order_Id`),
+ 
+ KEY `customerEmailId_idx` (`customer_emailId`),
+
+  KEY `transaction_Id_idx` (`transactionId`),
+  
+KEY `product_Id_idx` (`productId`),
+ 
+ KEY `deliverycol_idx` (`product_Id`),
+ 
+ CONSTRAINT `customerEmailId` FOREIGN KEY (`customer_emailId`) REFERENCES `customer_login` (`email_Id`) 
+ON DELETE NO ACTION ON UPDATE NO ACTION,
+ 
+ CONSTRAINT `product_Id` FOREIGN KEY (`product_Id`) REFERENCES `admin_product` (`product_Id`) 
+ON DELETE NO ACTION ON UPDATE NO ACTION,
+
+  CONSTRAINT `order_Id` FOREIGN KEY (`order_Id`) REFERENCES `order` (`order_Id`) 
+ON DELETE NO ACTION ON UPDATE NO ACTION,
+  
+CONSTRAINT `transaction_Id` FOREIGN KEY (`transactionId`) REFERENCES `payment` (`transactionId`) 
+ON DELETE NO ACTION ON UPDATE NO ACTION);
+
+
+
+FEEDBACK
+
+
+CREATE TABLE `feedback` (
+  `seller_emailId` varchar(45) DEFAULT NULL,
+ 
+ `product_feedback` varchar(45) DEFAULT NULL,
+ 
+ `product_Rating` double DEFAULT NULL,
+ 
+ `customerFeedBackToSeller` varchar(100) DEFAULT NULL,
+ 
+ `sellerResponseToCustomer` varchar(100) DEFAULT NULL,
+  
+`customer_emailId` varchar(45) DEFAULT NULL,
+ 
+ `product_Id` int(11) DEFAULT NULL,
+  
+KEY `customerEmailId_idx` (`customer_emailId`),
+ 
+ KEY `product_Id_idx` (`product_Id`),
+ 
+ CONSTRAINT `customerEmailId` FOREIGN KEY (`customer_emailId`) REFERENCES `customer_login` (`email_Id`) 
+ON DELETE NO ACTION ON UPDATE NO ACTION,
+ 
+ CONSTRAINT `product_Id` FOREIGN KEY (`product_Id`) REFERENCES `admin_product` (`product_Id`)
+ ON DELETE NO ACTION ON UPDATE NO ACTION);
